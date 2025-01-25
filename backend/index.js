@@ -1,13 +1,18 @@
-require('dotenv').config();
 
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+//mongoose.connect("mongodb+srv://admin:admin@cluster0.ixmxn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/fullcalendar", { useNewUrlParser: true, useUnifiedTopology: true });
+
+import express from "express";
+import cors from "cors";
+import events from "./routes/record.js";
+
+const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(bodyParser.json());
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-  if (err) return console.error(err);
-  console.log('Connected to MongoDB');
-});
 
-app.listen(5000, () => {console.log('Server is running on port 5000')});
+app.use(cors());
+app.use(express.json());
+app.use("/api", events);
+
+// start the Express server
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
