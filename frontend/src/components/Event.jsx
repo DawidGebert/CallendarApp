@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import DateTimePicker from "react-datetime-picker";
+import 'react-datetime-picker/dist/DateTimePicker.css';
 
 export default function Record() {
   const [form, setForm] = useState({
     title: "",
-    start: "",
-    end: "",
+    start: new Date(),
+    end: new Date(),
   });
+  const [title, setTitle] = useState("");
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
   const [isNew, setIsNew] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
@@ -31,6 +36,9 @@ export default function Record() {
         return;
       }
       setForm(record);
+      setTitle(record.title);
+      setStart(record.start);
+      setEnd(record.end);
     }
     fetchData();
     return;
@@ -42,11 +50,23 @@ export default function Record() {
       return { ...prev, ...value };
     });
   }
-
+  function updateTitle(value) {
+    setTitle(value);
+  }
+  function updateStart(value) {
+    setStart(value);
+  }
+  function updateEnd(value) {
+    setEnd(value);
+  }
   // This function will handle the submission.
   async function onSubmit(e) {
     e.preventDefault();
-    const event = { ...form };
+    const event = { 
+        title: title, 
+        start: start, 
+        end: end
+     };
     try {
       let response;
       if (isNew) {
@@ -76,6 +96,9 @@ export default function Record() {
       console.error('A problem occurred adding or updating a record: ', error);
     } finally {
       setForm({ title: "", start: "", end: "" });
+      setTitle("");
+      setStart(new Date());
+      setEnd(new Date());
       navigate("/");
     }
   }
@@ -86,17 +109,13 @@ export default function Record() {
       <h3 className="text-lg font-semibold p-4">Create/Update Event Record</h3>
       <form
         onSubmit={onSubmit}
-        className="border rounded-lg overflow-hidden p-4"
+        className="border rounded-lg p-4"
       >
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-slate-900/10 pb-12 md:grid-cols-2">
           <div>
             <h2 className="text-base font-semibold leading-7 text-slate-900">
               Event Info
             </h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              This information will be displayed publicly so be careful what you
-              share.
-            </p>
           </div>
 
           <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 ">
@@ -115,8 +134,8 @@ export default function Record() {
                     id="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="First Last"
-                    value={form.title}
-                    onChange={(e) => updateForm({ title: e.target.value })}
+                    value={title}
+                    onChange={(e) => updateTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -126,20 +145,17 @@ export default function Record() {
                 htmlFor="start"
                 className="block text-sm font-medium leading-6 text-slate-900"
               >
-                Start
+                Start 
               </label>
+              
               <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-slate-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <input
-                    type="text"
+                  <DateTimePicker
                     name="start"
                     id="start"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Developer Advocate"
-                    value={form.start}
-                    onChange={(e) => updateForm({ start: e.target.value })}
+                    initialValue={new Date()}
+                    value={start}
+                    onChange={setStart}
                   />
-                </div>
               </div>
             </div>
             <div className="sm:col-span-4">
@@ -150,17 +166,13 @@ export default function Record() {
                 End
               </label>
               <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-slate-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <input
-                    type="text"
+                  <DateTimePicker
                     name="end"
-                    id="end" 
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Developer Advocate"
-                    value={form.end}
-                    onChange={(e) => updateForm({ end: e.target.value })}
+                    id="end"
+                    initialValue={new Date()}
+                    value={end}
+                    onChange={setEnd}
                   />
-                </div>
               </div>
             </div>
           </div>
