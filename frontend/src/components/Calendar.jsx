@@ -19,6 +19,7 @@ export default function Calendar() {
           const records = await response.json();
           setRecords(records);
         }
+        console.log(records);
         getRecords();
         return;
       }, [records.length]);

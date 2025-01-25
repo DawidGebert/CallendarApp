@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import DateTimePicker from "react-datetime-picker";
+import DatePicker from "react-date-picker";
 import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 export default function Record() {
   const [form, setForm] = useState({
@@ -65,7 +67,8 @@ export default function Record() {
     const event = { 
         title: title, 
         start: start, 
-        end: end
+        end: end,
+        allDay: true
      };
     try {
       let response;
@@ -140,6 +143,7 @@ export default function Record() {
                 </div>
               </div>
             </div>
+            <div className="flex">
             <div className="sm:col-span-4">
               <label
                 htmlFor="start"
@@ -149,7 +153,8 @@ export default function Record() {
               </label>
               
               <div className="mt-2">
-                  <DateTimePicker
+                  <DatePicker
+                    hourAriaLabel="none"
                     name="start"
                     id="start"
                     initialValue={new Date()}
@@ -158,7 +163,7 @@ export default function Record() {
                   />
               </div>
             </div>
-            <div className="sm:col-span-4">
+            <div className=" ml-4 sm:col-span-4">
               <label
                 htmlFor="end"
                 className="block text-sm font-medium leading-6 text-slate-900"
@@ -166,7 +171,7 @@ export default function Record() {
                 End
               </label>
               <div className="mt-2">
-                  <DateTimePicker
+                  <DatePicker
                     name="end"
                     id="end"
                     initialValue={new Date()}
@@ -174,6 +179,7 @@ export default function Record() {
                     onChange={setEnd}
                   />
               </div>
+            </div>
             </div>
           </div>
         </div>

@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
       title: req.body.title,
       start: req.body.start,
       end: req.body.end,
+      allDay: req.body.allDay
     };
     let collection = await db.collection("events");
     let result = await collection.insertOne(newDocument);
