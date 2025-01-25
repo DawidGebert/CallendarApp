@@ -8,6 +8,7 @@ import App from "./App";
 import Event from "./components/Event";
 import EventList from "./components/EventList";
 import "./index.css";
+import Calendar from "./components/Calendar";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,16 @@ const router = createBrowserRouter([
       {
         path: "/edit/:id",
         element: <Event />,
+      },
+    ],
+  },
+    {
+    path: "/calendar",
+    element: <App />,
+    children: [
+      {
+        path: "/calendar",
+        element: <Calendar/>,
       },
     ],
   },
