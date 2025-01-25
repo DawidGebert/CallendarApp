@@ -6,11 +6,6 @@ import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
 export default function Record() {
-  const [form, setForm] = useState({
-    title: "",
-    start: new Date(),
-    end: new Date(),
-  });
   const [title, setTitle] = useState("");
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
@@ -37,7 +32,6 @@ export default function Record() {
         navigate("/");
         return;
       }
-      setForm(record);
       setTitle(record.title);
       setStart(record.start);
       setEnd(record.end);
@@ -47,19 +41,8 @@ export default function Record() {
   }, [params.id, navigate]);
 
   // These methods will update the state properties.
-  function updateForm(value) {
-    return setForm((prev) => {
-      return { ...prev, ...value };
-    });
-  }
   function updateTitle(value) {
     setTitle(value);
-  }
-  function updateStart(value) {
-    setStart(value);
-  }
-  function updateEnd(value) {
-    setEnd(value);
   }
   // This function will handle the submission.
   async function onSubmit(e) {
@@ -98,7 +81,6 @@ export default function Record() {
     } catch (error) {
       console.error('A problem occurred adding or updating a record: ', error);
     } finally {
-      setForm({ title: "", start: "", end: "" });
       setTitle("");
       setStart(new Date());
       setEnd(new Date());

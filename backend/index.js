@@ -1,6 +1,3 @@
-
-//mongoose.connect("mongodb+srv://admin:admin@cluster0.ixmxn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/fullcalendar", { useNewUrlParser: true, useUnifiedTopology: true });
-
 import express from "express";
 import cors from "cors";
 import events from "./routes/record.js";
